@@ -5,8 +5,9 @@ FROM centos:latest
  ENV PATH=/usr/share/elasticsearch/bin:$PATH
 
 # Install dependencies
-RUN yum install -y \
-    wget \
+RUN sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-* \
+    && sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-* \
+    && yum update -y && yum install -y wget \
     && wget https://artifacts.elastic.co/GPG-KEY-elasticsearch \
     && rpm --import GPG-KEY-elasticsearch \
     && yum install -y epel-release \
