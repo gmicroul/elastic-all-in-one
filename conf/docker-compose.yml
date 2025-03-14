@@ -1,0 +1,65 @@
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.17.3
+    container_name: elasticsearch
+    environment:
+      - node.name=elasticsearch
+      - cluster.name=es-docker-cluster
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - xpack.security.enabled=true
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+      #- ./ca.crt:/usr/share/elasticsearch/config/ca.crt:ro
+      #- ./ca.key:/usr/share/elasticsearch/config/ca.key:ro
+    ports:
+      - 9200:9200
+      - 9300:9300
+    networks:
+      - elk
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:8.17.3
+    container_name: logstash
+    volumes:
+      - ./logstash.conf:/usr/share/logstash/config/logstash.conf:ro
+    ports:
+      - 5044:5044
+      - 5000:5000/tcp
+      - 5000:5000/udp
+      - 9600:9600
+    environment:
+      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+    networks:
+      - elk
+    depends_on:
+      - elasticsearch
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.17.3
+    container_name: kibana
+    volumes:
+      - ./kibana.yml:/usr/share/kibana/config/kibana.yml:ro
+      #- ./ca.crt:/usr/share/kibana/config/ca.crt:ro
+      #- ./ca.key:/usr/share/kibana/config/ca.key:ro
+    ports:
+      - 5601:5601
+      - 9220:9220
+    environment:
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+ 
+ 
+    networks:
+      - elk
+    depends_on:
+      - elasticsearch
+
+volumes:
+  elasticsearch-data:
+
+networks:
+  elk:
