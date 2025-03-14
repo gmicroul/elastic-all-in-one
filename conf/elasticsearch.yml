@@ -1,0 +1,8 @@
+cluster.name: "elk-docker-cluster"
+node.name: "elasticsearch"
+network.host: 0.0.0.0
+discovery.seed_hosts: ["elasticsearch"]
+
+#
+xpack.security.enabled: true
+xpack.security.authc.api_key.enabled: true
