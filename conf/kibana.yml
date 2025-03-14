@@ -1,0 +1,11 @@
+server.name: kibana-server
+server.host: "0.0.0.0"
+server.port: 5601
+
+elasticsearch.hosts: ["http://elasticsearch:9200"]
+elasticsearch.username: "kibana_system"
+elasticsearch.password: "password"
+#第一次启动时先不要加下面三个，先进去kibana里输入”bin/kibana-encryption-keys generate“，得到结果直接拷贝过来重启kibana容器。
+#xpack.encryptedSavedObjects.encryptionKey: c4188f1b3643fa7bc6cd6de21a5cdced
+#xpack.reporting.encryptionKey: 5a2fc58116a8a5f1b5edbe2a08597bcd
+#xpack.security.encryptionKey: e4b7e6079584dbd6476ad5489984a9ed
