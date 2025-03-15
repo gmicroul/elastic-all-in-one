@@ -1,13 +1,12 @@
 # Use an ARM64 base image with systemd
-FROM centos:latest
+FROM rockylinux:arm64
 
 # Set environment
  ENV PATH=/usr/share/elasticsearch/bin:$PATH
-
+#sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-* \
+#    && sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-* \
 # Install dependencies
-RUN sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-* \
-    && sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-* \
-    && yum update -y && yum install -y wget \
+RUN yum update -y && yum install -y wget \
     && wget  https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-8.17.3-aarch64.rpm \
     && wget https://artifacts.elastic.co/downloads/kibana/kibana-8.17.3-aarch64.rpm \
     && wget https://artifacts.elastic.co/downloads/logstash/logstash-8.17.3-aarch64.rpm \
