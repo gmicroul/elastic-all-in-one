@@ -26,6 +26,6 @@ COPY conf/elasticsearch.yml /etc/elasticsearch/elasticsearch.yml
 COPY conf/kibana.yml /usr/local/kibana/config/kibana.yml
 
 # Use supervisord to run both services
-COPY supervisord.conf /etc/supervisord.conf
+COPY conf/supervisord.conf /etc/supervisord.conf
 
 CMD ["/usr/bin/supervisord", "-n"]
