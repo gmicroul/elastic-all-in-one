@@ -1,5 +1,5 @@
 # Use an ARM64 base image with systemd
-FROM rockylinux:arm64
+FROM rockylinux/rockylinux:9-ubi-init
 
 # Set environment
  ENV PATH=/usr/share/elasticsearch/bin:$PATH
