@@ -10,7 +10,7 @@ RUN yum update -y && yum install -y wget \
     && wget  https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-8.17.3-aarch64.rpm \
     && wget https://artifacts.elastic.co/downloads/kibana/kibana-8.17.3-aarch64.rpm \
     && wget https://artifacts.elastic.co/downloads/logstash/logstash-8.17.3-aarch64.rpm \
-    && rpm -i *.rpm
+    && rpm -i *.rpm --force --nodeps
 # Configure Elasticsearch
 RUN echo "vm.max_map_count=262144" > /etc/sysctl.conf \
     && sysctl -p \
