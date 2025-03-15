@@ -20,10 +20,10 @@ RUN wget https://artifacts.elastic.co/downloads/kibana/kibana-8.17.3-linux-aarch
 EXPOSE 9200 5601
 
 # Configure Elasticsearch (if needed)
-COPY elasticsearch.yml /etc/elasticsearch/elasticsearch.yml
+COPY conf/elasticsearch.yml /etc/elasticsearch/elasticsearch.yml
 
 # Configure Kibana (if needed)
-COPY kibana.yml /usr/local/kibana/config/kibana.yml
+COPY conf/kibana.yml /usr/local/kibana/config/kibana.yml
 
 # Use supervisord to run both services
 COPY supervisord.conf /etc/supervisord.conf
