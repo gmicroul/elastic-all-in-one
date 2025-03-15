@@ -1,38 +1,39 @@
-# Use an ARM-compatible base image (e.g., CentOS)
-FROM docker.elastic.co/elasticsearch/elasticsearch:8.17.3-arm64
+# 使用带有 sudo 支持的基础镜像
+FROM ubuntu:24.04
 
-# Create a non-root user with sudo privileges
-RUN sudo groupadd elastic && \
-    sudo useradd -m -s /bin/bash -g elastic elastic && \
-    sudo usermod -aG sudo elastic && \
-    sudo mkdir -p /home/elastic && \
-    sudo chown elastic:elastic /home/elastic
-
-# Set the working directory
-WORKDIR /usr/local
-
-# Install dependencies
-RUN sudo apt-get update -y && \
-    sudo apt-get install -y --no-install-recommends \
+# 更新包索引
+RUN apt update && \
+    apt install -y --no-install-recommends \
     wget \
-    && sudo rm -rf /var/lib/apt/lists/*
+    sudo \
+    && rm -rf /var/lib/apt/lists/*
 
-# Download and install Kibana
-RUN sudo wget https://artifacts.elastic.co/downloads/kibana/kibana-8.17.3-linux-aarch64.tar.gz \
-    && sudo tar -xzf kibana-8.17.3-linux-aarch64.tar.gz \
-    && sudo  mv kibana-8.17.3-linux-aarch64 /usr/local/kibana \
-    && sudo rm kibana-8.17.3-linux-aarch64.tar.gz
+# 安装 Elasticsearch
+RUN wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-8.17.3-linux-aarch64.tar.gz && \
+    tar -xzf elasticsearch-8.17.3-linux-aarch64.tar.gz && \
+    mv elasticsearch-8.17.3-linux-aarch64 /usr/local/elasticsearch && \
+    rm elasticsearch-8.17.3-linux-aarch64.tar.gz
 
-# Expose ports
-EXPOSE 9200 5601
+# 安装 Kibana
+RUN wget https://artifacts.elastic.co/downloads/kibana/kibana-8.17.3-linux-aarch64.tar.gz && \
+    tar -xzf kibana-8.17.3-linux-aarch64.tar.gz && \
+    mv kibana-8.17.3-linux-aarch64 /usr/local/kibana && \
+    rm kibana-8.17.3-linux-aarch64.tar.gz
 
-# Configure Elasticsearch (if needed)
-COPY conf/elasticsearch.yml /etc/elasticsearch/elasticsearch.yml
+# 创建非 root 用户
+RUN useradd -m -s /bin/bash -d /home/elastic elastic && \
+    usermod -aG sudo elastic && \
+    chown elastic:elastic /usr/local/elasticsearch && \
+    chown elastic:elastic /usr/local/kibana
 
-# Configure Kibana (if needed)
+# 配置 elasticsearch.yml 和 kibana.yml
+COPY conf/elasticsearch.yml /usr/local/elasticsearch/config/elasticsearch.yml
 COPY conf/kibana.yml /usr/local/kibana/config/kibana.yml
 
-# Use supervisord to run both services
+# 使用 supervisord 管理服务
 COPY conf/supervisord.conf /etc/supervisord.conf
+
+# 切换到 elastic 用户
+USER elastic
 
 CMD ["/usr/bin/supervisord", "-n"]
