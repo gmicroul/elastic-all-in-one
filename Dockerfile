@@ -1,5 +1,5 @@
 # Use an ARM64 base image with systemd
-FROM fedora
+FROM docker-rockylinux-systemd
 
 # Set environment
  ENV PATH=/usr/share/elasticsearch/bin:$PATH
