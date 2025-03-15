@@ -8,11 +8,10 @@ FROM centos:latest
 RUN sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-* \
     && sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-* \
     && yum update -y && yum install -y wget \
-    && wget https://artifacts.elastic.co/GPG-KEY-elasticsearch \
-    && rpm --import GPG-KEY-elasticsearch \
-    && yum install -y epel-release \
-    && yum install -y elasticsearch logstash kibana fleet-server
-
+    && wget  https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-8.17.3-aarch64.rpm \
+    && wget https://artifacts.elastic.co/downloads/kibana/kibana-8.17.3-aarch64.rpm \
+    && wget https://artifacts.elastic.co/downloads/logstash/logstash-8.17.3-aarch64.rpm \
+    && rpm -i *.rpm
 # Configure Elasticsearch
 RUN echo "vm.max_map_count=262144" > /etc/sysctl.conf \
     && sysctl -p \
