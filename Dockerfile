@@ -5,10 +5,10 @@ FROM docker.elastic.co/elasticsearch/elasticsearch:8.17.3-arm64
 WORKDIR /usr/local
 
 # Install dependencies
-RUN apt-get update && \
+RUN apt-get update -y && \
     apt-get install -y --no-install-recommends \
-    wget \
-    && rm -rf /var/lib/apt/lists/*
+    wget 
+    #&& rm -rf /var/lib/apt/lists/*
 
 # Download and install Kibana
 RUN wget https://artifacts.elastic.co/downloads/kibana/kibana-8.17.3-linux-aarch64.tar.gz \
