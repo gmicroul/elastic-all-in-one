@@ -14,14 +14,14 @@ RUN curl -fsSL https://elastic.co/start-local | sh
 # Configure Elasticsearch
 RUN echo "vm.max_map_count=262144" > /etc/sysctl.conf \
     && sysctl -p \
-    && echo -e "xpack.security.enabled: true\nxpack.security.http.ssl.enabled: true" >> /etc/elasticsearch/elasticsearch.yml
+    && echo -e "xpack.security.enabled: true\nxpack.security.http.ssl.enabled: true" >> /usr/share/elasticsearch/config/elasticsearch.yml
 
 # Configure Logstash
-RUN echo "xpack.monitoring.elasticsearch.hosts: [\"localhost:9200\"]" >> /etc/logstash/logstash.yml
+RUN echo "xpack.monitoring.elasticsearch.hosts: [\"localhost:9200\"]" >> /usr/share/logstash/config/logstash.conf
 
 # Configure Kibana
-RUN echo "elasticsearch.hosts: [\"http://localhost:9200\"]" >> /etc/kibana/kibana.yml \
-    && echo "fleet.enabled: true" >> /etc/kibana/kibana.yml
+RUN echo "elasticsearch.hosts: [\"http://localhost:9200\"]" >> /usr/share/kibana/config/kibana.yml \
+    && echo "fleet.enabled: true" >> /usr/share/kibana/config/kibana.yml
 
 # Enable systemd
 RUN systemctl unmask elasticsearch.service logstash.service kibana.service fleet-server.service
