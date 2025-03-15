@@ -4,7 +4,7 @@ FROM ubuntu:24.04
 # 更新包索引
 RUN apt update && \
     apt install -y --no-install-recommends \
-    wget \
+    wget supervisor \
     sudo \
     && rm -rf /var/lib/apt/lists/*
 
