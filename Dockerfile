@@ -23,8 +23,10 @@ RUN wget https://artifacts.elastic.co/downloads/kibana/kibana-8.17.3-linux-aarch
 # 创建非 root 用户
 RUN useradd -m -s /bin/bash -d /home/elastic elastic && \
     usermod -aG sudo elastic && \
-    chown elastic:elastic /usr/local/elasticsearch && \
-    chown elastic:elastic /usr/local/kibana
+    chown -R elastic:elastic /usr/local/elasticsearch && \
+    chown -R elastic:elastic /usr/local/kibana && \
+    mkdir -p /var/log/supervisord && \
+    chown -R elastic:elastic /var/log/supervisord
 
 # 配置 elasticsearch.yml 和 kibana.yml
 COPY conf/elasticsearch.yml /usr/local/elasticsearch/config/elasticsearch.yml
