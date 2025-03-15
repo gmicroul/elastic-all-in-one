@@ -1,12 +1,31 @@
-# Use an ARM64 base image with systemd
-FROM ubuntu:latest
+# Use an ARM-compatible base image (e.g., CentOS)
+FROM docker.elastic.co/elasticsearch/elasticsearch:8.17.3-arm64
 
-RUN curl -fsSL https://elastic.co/start-local | sh
+# Set the working directory
+WORKDIR /usr/local
 
-RUN systemctl unmask elasticsearch.service kibana.service 
+# Install dependencies
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    wget \
+    && rm -rf /var/lib/apt/lists/*
+
+# Download and install Kibana
+RUN wget https://artifacts.elastic.co/downloads/kibana/kibana-8.17.3-linux-aarch64.tar.gz \
+    && tar -xzf kibana-8.17.3-linux-aarch64.tar.gz \
+    && mv kibana-8.17.3-linux-aarch64 /usr/local/kibana \
+    && rm kibana-8.17.3-linux-aarch64.tar.gz
 
 # Expose ports
-EXPOSE 9200 9300 5601 5044 9220 8200
+EXPOSE 9200 5601
 
-# Start services
-CMD ["/usr/sbin/init"]
+# Configure Elasticsearch (if needed)
+COPY elasticsearch.yml /etc/elasticsearch/elasticsearch.yml
+
+# Configure Kibana (if needed)
+COPY kibana.yml /usr/local/kibana/config/kibana.yml
+
+# Use supervisord to run both services
+COPY supervisord.conf /etc/supervisord.conf
+
+CMD ["/usr/bin/supervisord", "-n"]
