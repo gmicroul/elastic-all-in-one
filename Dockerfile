@@ -10,7 +10,7 @@ RUN apt update && \
 
 # 安装 Elasticsearch
 RUN wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-8.17.3-linux-aarch64.tar.gz --no-check-certificate && \
-    tar -xzf elasticsearch-8.17.3-linux-aarch64.tar.gz && \
+    tar -xzf elasticsearch-8.17.3-linux-aarch64.tar.gz && ls -ltrh  && pwd && \
     mv elasticsearch-8.17.3-linux-aarch64 /usr/local/elasticsearch && \
     rm elasticsearch-8.17.3-linux-aarch64.tar.gz
 
