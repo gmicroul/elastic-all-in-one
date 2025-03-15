@@ -1,6 +1,5 @@
 # Use an ARM64 base image with systemd
-FROM rockylinux/rockylinux:9
-
+FROM ubuntu:latest
 # Set environment
  ENV PATH=/usr/share/elasticsearch/bin:$PATH
 #sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-* \
