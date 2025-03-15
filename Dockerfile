@@ -2,12 +2,12 @@
 FROM docker.elastic.co/elasticsearch/elasticsearch:8.17.3-arm64
 
 # Create a non-root user with sudo privileges
-RUN groupadd -g 1000 elastic && \
-    useradd -u 1000 -g elastic -d /home/elastic -s /bin/bash elastic && \
+RUN groupadd elastic && \
+    useradd -m -s /bin/bash -g elastic elastic && \
     usermod -aG sudo elastic && \
     mkdir -p /home/elastic && \
     chown elastic:elastic /home/elastic
-    
+
 # Set the working directory
 WORKDIR /usr/local
 
