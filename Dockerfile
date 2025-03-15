@@ -9,13 +9,13 @@ RUN apt update && \
     && rm -rf /var/lib/apt/lists/*
 
 # 安装 Elasticsearch
-RUN wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-8.17.3-linux-aarch64.tar.gz && \
+RUN wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-8.17.3-linux-aarch64.tar.gz --no-check-certificate && \
     tar -xzf elasticsearch-8.17.3-linux-aarch64.tar.gz && \
     mv elasticsearch-8.17.3-linux-aarch64 /usr/local/elasticsearch && \
     rm elasticsearch-8.17.3-linux-aarch64.tar.gz
 
 # 安装 Kibana
-RUN wget https://artifacts.elastic.co/downloads/kibana/kibana-8.17.3-linux-aarch64.tar.gz && \
+RUN wget https://artifacts.elastic.co/downloads/kibana/kibana-8.17.3-linux-aarch64.tar.gz --no-check-certificate && \
     tar -xzf kibana-8.17.3-linux-aarch64.tar.gz && \
     mv kibana-8.17.3-linux-aarch64 /usr/local/kibana && \
     rm kibana-8.17.3-linux-aarch64.tar.gz
