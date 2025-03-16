@@ -26,8 +26,8 @@ RUN useradd -m -s /bin/bash -d /home/elastic elastic && \
     chown -R elastic:elastic /usr/local/elasticsearch && \
     chown -R elastic:elastic /usr/local/kibana && \
     mkdir -p /var/log/supervisord && \
-    chown -R elastic:elastic /var/log/supervisord && \
-    find / -name supervisord.log
+    chown -R elastic:elastic /var/log/supervisord
+    #find / -name supervisord.log
     #chmod 777 /var/log/supervisord.log
 
 # 配置 elasticsearch.yml 和 kibana.yml
