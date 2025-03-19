@@ -8,7 +8,13 @@
 
 3.security配置
 
-4.等等
+4.配置监控B站视频观看人数
+
+# 参考配置文件：logstash.conf
+# 暂时实现：非在线更新视频号，需拷贝两个文件到容器再重启容器
+# sudo docker cp logstash.conf logstash:/usr/share/logstash/config/logstash.conf
+# sudo docker cp logstash.conf logstash:/usr/share/logstash/pipeline/logstash.conf 
+# sudo docker restart logstash
 
 不足的地方：
 
