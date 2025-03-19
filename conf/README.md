@@ -15,6 +15,8 @@
 # sudo docker cp logstash.conf logstash:/usr/share/logstash/config/logstash.conf
 # sudo docker cp logstash.conf logstash:/usr/share/logstash/pipeline/logstash.conf 
 # sudo docker restart logstash
+<img width="1645" alt="image" src="https://github.com/user-attachments/assets/cb8329c8-1cdc-4e2c-8340-1c4921086e73" />
+
 
 不足的地方：
 
